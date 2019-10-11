@@ -4,17 +4,307 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
     <TextView
+        android:id="@+id/DailyScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        android:textColor="#5A24DA"
+        android:textSize="65sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/MonthlyScore"
+        app:layout_constraintStart_toEndOf="@+id/WeeklyScore"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="83" />
 
+    <TextView
+        android:id="@+id/WeeklyScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="TextView"
+        android:textSize="35sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/DailyScore"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="91" />
+
+    <TextView
+        android:id="@+id/MonthlyScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="TextView"
+        android:textSize="35sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/DailyScore"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="72" />
+
+    <TextView
+        android:id="@+id/Transport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:text="TextView"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DailyScore"
+        tools:text="Transport" />
+
+    <TextView
+        android:id="@+id/EcoFriendly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/Transport"
+        app:layout_constraintTop_toBottomOf="@+id/Transport"
+        tools:text="Eco-Friendly" />
+
+    <TextView
+        android:id="@+id/PercentageEco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/EcoFriendly"
+        app:layout_constraintTop_toBottomOf="@+id/EcoFriendly"
+        tools:text="55%" />
+
+    <TextView
+        android:id="@+id/DistanceEco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/PercentageEco"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="2.8km" />
+
+    <TextView
+        android:id="@+id/TimeEco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="40dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/DistanceEco"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="00:35:12" />
+
+    <TextView
+        android:id="@+id/PrivateVehicle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/EcoFriendly"
+        app:layout_constraintTop_toBottomOf="@+id/PercentageEco"
+        tools:text="Private Vehicle" />
+
+    <TextView
+        android:id="@+id/PercentagePrivate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/PrivateVehicle"
+        app:layout_constraintTop_toBottomOf="@+id/PrivateVehicle"
+        tools:text="25%" />
+
+    <TextView
+        android:id="@+id/DistancePrivate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/PercentagePrivate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="5.3km" />
+
+    <TextView
+        android:id="@+id/TimePrivate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="40dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/PercentagePrivate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="00:12:34" />
+
+    <TextView
+        android:id="@+id/PublicVehicle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/PercentagePrivate"
+        app:layout_constraintTop_toBottomOf="@+id/PercentagePrivate"
+        tools:text="Public Vehicle" />
+
+    <TextView
+        android:id="@+id/PercentagePublic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/PublicVehicle"
+        app:layout_constraintTop_toBottomOf="@+id/PublicVehicle"
+        tools:text="20%" />
+
+    <TextView
+        android:id="@+id/DistancePublic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/PercentagePublic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="1.7km" />
+
+    <TextView
+        android:id="@+id/TimePublic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="40dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/DistancePublic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="00:09:37" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/PlottingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.88"
+        app:srcCompat="?attr/colorAccent" />
+
+    <TextView
+        android:id="@+id/Statistics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PercentagePublic"
+        tools:text="Statistics" />
+
+    <TextView
+        android:id="@+id/CO2Emission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/Statistics"
+        app:layout_constraintTop_toBottomOf="@+id/Statistics"
+        tools:text="CO2 Emission" />
+
+    <TextView
+        android:id="@+id/CO2Avoided"
+        android:layout_width="78dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/ValEmission"
+        app:layout_constraintTop_toBottomOf="@+id/ValEmission"
+        tools:text="CO2 Avoided" />
+
+    <TextView
+        android:id="@+id/ValEmission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/CO2Emission"
+        app:layout_constraintTop_toBottomOf="@+id/CO2Emission"
+        tools:text="2.89kg" />
+
+    <TextView
+        android:id="@+id/ValAvoided"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/CO2Avoided"
+        app:layout_constraintTop_toBottomOf="@+id/CO2Avoided"
+        tools:text="0.64kg" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/PendingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PlottingButton"
+        app:srcCompat="?attr/colorAccent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
