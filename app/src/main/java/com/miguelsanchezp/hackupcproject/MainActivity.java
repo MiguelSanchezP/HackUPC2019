@@ -1,9 +1,9 @@
 package com.miguelsanchezp.hackupcproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
         PendingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Pending Dialog must be here", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                Toast.makeText(MainActivity.this, "Pending dialog should display here", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "Pending dialog should display here", Toast.LENGTH_SHORT).show();
+                startStuff ();
             }
         });
 
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "Plotting dialog should display here", Toast.LENGTH_SHORT).show();
-//                Snackbar.make(view, "Plotting DIalog must be here", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
     }
@@ -84,5 +83,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startStuff () {
+        Intent intent = new Intent (this, PendingActivity.class);
+        startActivity(intent);
     }
 }
