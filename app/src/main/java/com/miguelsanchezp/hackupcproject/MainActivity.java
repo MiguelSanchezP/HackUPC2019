@@ -23,8 +23,12 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
+    public static final Data allData = new Data (0,0,0,0,0,0);
+    public static ArrayList<PendingItem> pendingActivities = new ArrayList<>();
     private static final String TAG = "MainActivity";
     private double LAT;
     private double LONG;
@@ -36,29 +40,76 @@ public class MainActivity extends AppCompatActivity {
     LocationListener locationListener;
     private double distancePrev = 0;
     private double distance = 0;
+    private boolean running = false;
+    long initialMillis;
+    long finalMillis;
+    private static PendingActivity pendingActivity = new PendingActivity();
 
-//    private FloatingActionButton PendingButton = findViewById(R.id.PendingButton);
-//    private FloatingActionButton PlottingButton = findViewById(R.id.PlottingButton);
-//    private TextView DailyScore = findViewById(R.id.DailyScore);
-//    private TextView WeeklyScore = findViewById (R.id.WeeklyScore);
-//    private TextView MonthlyScore = findViewById(R.id.MonthlyScore);
-//    private TextView PercentageEco = findViewById (R.id.PercentageEco);
-//    private TextView DistanceEco = findViewById (R.id.DistanceEco);
-//    private TextView TimeEco = findViewById (R.id.TimeEco);
-//    private TextView PercentagePrivate = findViewById(R.id.PercentagePrivate);
-//    private TextView DistancePrivate = findViewById(R.id.DistancePrivate);
-//    private TextView TimePrivate = findViewById (R.id.TimePrivate);
-//    private TextView PercentagePublic = findViewById(R.id.PercentagePublic);
-//    private TextView DistancePublic = findViewById (R.id.DistancePublic);
-//    private TextView TimePublic = findViewById (R.id.TimePublic);
-//    private TextView ValEmission = findViewById(R.id.ValEmission);
-//    private TextView ValAvoided = findViewById(R.id.ValAvoided);
+//    FloatingActionButton PendingButton = findViewById(R.id.PendingButton);
+//    FloatingActionButton PlottingButton = findViewById(R.id.PlottingButton);
+//    FloatingActionButton SavingButton = findViewById(R.id.SavingButton);
+//    FloatingActionButton LoadingButton = findViewById(R.id.LoadingButton);
+//    FloatingActionButton ButtonStartend = findViewById(R.id.ButtonStartend);
+//    final TextView DailyScore = findViewById(R.id.DailyScore);
+//    final TextView WeeklyScore = findViewById (R.id.WeeklyScore);
+//    final TextView MonthlyScore = findViewById(R.id.MonthlyScore);
+//    final TextView PercentageEco = findViewById (R.id.PercentageEco);
+//    final TextView DistanceEco = findViewById (R.id.DistanceEco);
+//    final TextView TimeEco = findViewById (R.id.TimeEco);
+//    final TextView PercentagePrivate = findViewById(R.id.PercentagePrivate);
+//    final TextView DistancePrivate = findViewById(R.id.DistancePrivate);
+//    final TextView TimePrivate = findViewById (R.id.TimePrivate);
+//    final TextView PercentagePublic = findViewById(R.id.PercentagePublic);
+//    final TextView DistancePublic = findViewById (R.id.DistancePublic);
+//    final TextView TimePublic = findViewById (R.id.TimePublic);
+//    final TextView ValEmission = findViewById(R.id.ValEmission);
+//    final TextView ValAvoided = findViewById(R.id.ValAvoided);
+
+    FloatingActionButton PendingButton;
+    FloatingActionButton PlottingButton;
+    FloatingActionButton SavingButton;
+    FloatingActionButton LoadingButton;
+    FloatingActionButton ButtonStartend;
+     TextView DailyScore;
+     TextView WeeklyScore;
+     TextView MonthlyScore;
+     TextView PercentageEco;
+     TextView DistanceEco;
+     TextView TimeEco;
+     TextView PercentagePrivate;
+     TextView DistancePrivate;
+     TextView TimePrivate;
+     TextView PercentagePublic;
+     TextView DistancePublic;
+     TextView TimePublic;
+     TextView ValEmission;
+     TextView ValAvoided;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        PendingButton = findViewById(R.id.PendingButton);
+         PlottingButton = findViewById(R.id.PlottingButton);
+         SavingButton = findViewById(R.id.SavingButton);
+         LoadingButton = findViewById(R.id.LoadingButton);
+         ButtonStartend = findViewById(R.id.ButtonStartend);
+         DailyScore = findViewById(R.id.DailyScore);
+          WeeklyScore = findViewById (R.id.WeeklyScore);
+         MonthlyScore = findViewById(R.id.MonthlyScore);
+          PercentageEco = findViewById (R.id.PercentageEco);
+         DistanceEco = findViewById (R.id.DistanceEco);
+         TimeEco = findViewById (R.id.TimeEco);
+         PercentagePrivate = findViewById(R.id.PercentagePrivate);
+         DistancePrivate = findViewById(R.id.DistancePrivate);
+         TimePrivate = findViewById (R.id.TimePrivate);
+         PercentagePublic = findViewById(R.id.PercentagePublic);
+          DistancePublic = findViewById (R.id.DistancePublic);
+          TimePublic = findViewById (R.id.TimePublic);
+         ValEmission = findViewById(R.id.ValEmission);
+          ValAvoided = findViewById(R.id.ValAvoided);
         setSupportActionBar(toolbar);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -68,30 +119,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-         FloatingActionButton PendingButton = findViewById(R.id.PendingButton);
-         FloatingActionButton PlottingButton = findViewById(R.id.PlottingButton);
-         FloatingActionButton SavingButton = findViewById(R.id.SavingButton);
-         FloatingActionButton LoadingButton = findViewById(R.id.LoadingButton);
-         final TextView DailyScore = findViewById(R.id.DailyScore);
-         final TextView WeeklyScore = findViewById (R.id.WeeklyScore);
-         final TextView MonthlyScore = findViewById(R.id.MonthlyScore);
-         final TextView PercentageEco = findViewById (R.id.PercentageEco);
-         final TextView DistanceEco = findViewById (R.id.DistanceEco);
-         final TextView TimeEco = findViewById (R.id.TimeEco);
-         final TextView PercentagePrivate = findViewById(R.id.PercentagePrivate);
-         final TextView DistancePrivate = findViewById(R.id.DistancePrivate);
-         final TextView TimePrivate = findViewById (R.id.TimePrivate);
-         final TextView PercentagePublic = findViewById(R.id.PercentagePublic);
-         final TextView DistancePublic = findViewById (R.id.DistancePublic);
-         final TextView TimePublic = findViewById (R.id.TimePublic);
-         final TextView ValEmission = findViewById(R.id.ValEmission);
-         final TextView ValAvoided = findViewById(R.id.ValAvoided);
 
         PendingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                Toast.makeText(MainActivity.this, "Pending dialog should display here", Toast.LENGTH_SHORT).show();
-                startStuff ();
+                startStuff();
             }
         });
 
@@ -118,6 +151,25 @@ public class MainActivity extends AppCompatActivity {
                 fillLayout(PercentageEco, DistanceEco, TimeEco, PercentagePrivate, DistancePrivate, TimePrivate,
                         PercentagePublic, DistancePublic, TimePublic, ValEmission, ValAvoided, DailyScore, WeeklyScore,
                         MonthlyScore);
+            }
+        });
+
+        ButtonStartend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!running) {
+                    running = true;
+                    initialMillis = System.currentTimeMillis();
+                    Toast.makeText(MainActivity.this, "Activity started", Toast.LENGTH_SHORT).show();
+                }else{
+                    running = false;
+                    finalMillis = System.currentTimeMillis();
+                    Toast.makeText(MainActivity.this, "Activity ended", Toast.LENGTH_SHORT).show();
+                    PendingItem pendingItem = new PendingItem(String.valueOf(initialMillis), String.valueOf(finalMillis));
+                    pendingActivities.add(pendingItem);
+                    Toast.makeText(MainActivity.this, "Added successfully", Toast.LENGTH_SHORT).show();
+//                    pendingActivity.addPendingItem(pendingItem);
+                }
             }
         });
     }
@@ -216,17 +268,21 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    }
 
-    private void saveData () {
-        Data data = new Data();
-        data.setEcoFriendlyDistance(10.0);
-        data.setPrivateDistance(10.0);
-        data.setPublicDistance(10.0);
-        data.setEcoFriendlySecs(4802);
-        data.setPrivateSecs(1054);
-        data.setPublicSecs(2514);
-        data.setOthers();
+    public static void saveData () {
+//        Data data = new Data();
+//        data.setEcoFriendlyDistance(10.0);
+//        data.setPrivateDistance(10.0);
+//        data.setPublicDistance(10.0);
+//        data.setEcoFriendlySecs(4802);
+//        data.setPrivateSecs(1054);
+//        data.setPublicSecs(2514);
+//        data.setOthers();
 
-        WriteData.WriteIntoFile(data);
+        WriteData.WriteIntoFile(allData);
+    }
+
+    public void fillEverything () {
+        fillLayout(PercentageEco, DistanceEco, TimeEco, PercentagePrivate, DistancePrivate, TimePrivate, PercentagePublic, DistancePublic, TimePublic, ValEmission, ValAvoided, DailyScore, WeeklyScore, MonthlyScore);
     }
 
     private void fillLayout (TextView PercentageEco, TextView DistanceEco, TextView TimeEco, TextView PercentagePrivate,
@@ -235,17 +291,17 @@ public class MainActivity extends AppCompatActivity {
                              TextView WeeklyScore, TextView MonthlyScore) {
         Data data = ReadData.ReadFromFile();
         if (data != null) {
-            PercentageEco.setText(data.getEcoFriendlyPercentage() + "%");
-            DistanceEco.setText(data.getEcoFriendlyDistance()+"km");
+            PercentageEco.setText(String.valueOf(data.getEcoFriendlyPercentage()));
+            DistanceEco.setText(String.valueOf(data.getEcoFriendlyDistance()));
             TimeEco.setText(formatSeconds(data.getEcoFriendlySecs()));
-            PercentagePrivate.setText(data.getPrivatePercentage() + "%");
-            DistancePrivate.setText(data.getPrivateDistance() + "km");
+            PercentagePrivate.setText(String.valueOf(data.getPrivatePercentage()));
+            DistancePrivate.setText(String.valueOf(data.getPrivateDistance()));
             TimePrivate.setText(formatSeconds(data.getPrivateSecs()));
-            PercentagePublic.setText(data.getPublicPercentage()+"%");
-            DistancePublic.setText(data.getPublicDistance() + "km");
+            PercentagePublic.setText(String.valueOf(data.getPublicPercentage()));
+            DistancePublic.setText(String.valueOf(data.getPublicDistance()));
             TimePublic.setText(formatSeconds(data.getPublicSecs()));
-            ValEmission.setText(data.getEmittedCO2()+"kg");
-            ValAvoided.setText(data.getAvoidedCO2()+"kg");
+            ValEmission.setText(String.valueOf(data.getEmittedCO2()));
+            ValAvoided.setText(String.valueOf(data.getAvoidedCO2()));
             DailyScore.setText(String.valueOf(data.getDailyScore()));
             WeeklyScore.setText(String.valueOf(data.getWeeklyScore()));
             MonthlyScore.setText(String.valueOf(data.getMonthlyScore()));
@@ -297,5 +353,9 @@ public class MainActivity extends AppCompatActivity {
 //        return Math.sqrt(Math.pow(kmX, 2) + Math.pow(kmY, 2));
         Toast.makeText(this, String.valueOf(distance*1000), Toast.LENGTH_SHORT).show();
         return distance*1000000;
+    }
+
+    public static ArrayList<PendingItem> getPendingActivities () {
+        return pendingActivities;
     }
 }
