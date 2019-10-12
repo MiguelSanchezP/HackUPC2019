@@ -318,4 +318,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/SavingButton"
         app:srcCompat="?attr/colorAccent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ButtonStartend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/LoadingButton"
+        app:layout_constraintStart_toEndOf="@+id/LoadingButton"
+        app:srcCompat="?attr/colorAccent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
