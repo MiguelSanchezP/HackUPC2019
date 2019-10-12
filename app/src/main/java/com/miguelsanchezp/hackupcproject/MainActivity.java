@@ -31,22 +31,22 @@ public class MainActivity extends AppCompatActivity {
     private double LONG;
     private double LAT;
 
-    FloatingActionButton PendingButton = findViewById(R.id.PendingButton);
-    FloatingActionButton PlottingButton = findViewById(R.id.PlottingButton);
-    TextView DailyScore = findViewById(R.id.DailyScore);
-    TextView WeeklyScore = findViewById (R.id.WeeklyScore);
-    TextView MonthlyScore = findViewById(R.id.MonthlyScore);
-    TextView PercentageEco = findViewById (R.id.PercentageEco);
-    TextView DistanceEco = findViewById (R.id.DistanceEco);
-    TextView TimeEco = findViewById (R.id.TimeEco);
-    TextView PercentagePrivate = findViewById(R.id.PercentagePrivate);
-    TextView DistancePrivate = findViewById(R.id.DistancePrivate);
-    TextView TimePrivate = findViewById (R.id.TimePrivate);
-    TextView PercentagePublic = findViewById(R.id.PercentagePublic);
-    TextView DistancePublic = findViewById (R.id.DistancePublic);
-    TextView TimePublic = findViewById (R.id.TimePublic);
-    TextView ValEmission = findViewById(R.id.ValEmission);
-    TextView ValAvoided = findViewById(R.id.ValAvoided);
+    private FloatingActionButton PendingButton = findViewById(R.id.PendingButton);
+    private FloatingActionButton PlottingButton = findViewById(R.id.PlottingButton);
+    private TextView DailyScore = findViewById(R.id.DailyScore);
+    private TextView WeeklyScore = findViewById (R.id.WeeklyScore);
+    private TextView MonthlyScore = findViewById(R.id.MonthlyScore);
+    private TextView PercentageEco = findViewById (R.id.PercentageEco);
+    private TextView DistanceEco = findViewById (R.id.DistanceEco);
+    private TextView TimeEco = findViewById (R.id.TimeEco);
+    private TextView PercentagePrivate = findViewById(R.id.PercentagePrivate);
+    private TextView DistancePrivate = findViewById(R.id.DistancePrivate);
+    private TextView TimePrivate = findViewById (R.id.TimePrivate);
+    private TextView PercentagePublic = findViewById(R.id.PercentagePublic);
+    private TextView DistancePublic = findViewById (R.id.DistancePublic);
+    private TextView TimePublic = findViewById (R.id.TimePublic);
+    private TextView ValEmission = findViewById(R.id.ValEmission);
+    private TextView ValAvoided = findViewById(R.id.ValAvoided);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,7 +181,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fillLayout () {
-        ReadData.ReadFromFile("last");
-        PercentageEco.setText()
+        Data data = ReadData.ReadFromFile();
+        PercentageEco.setText(String.valueOf(data.getEcoFriendlyPercentage()));
+        DistanceEco.setText(String.valueOf(data.getEcoFriendlyDistance()));
+        TimeEco.setText(String.valueOf(data.getEcoFriendlySecs()));
+        PercentagePrivate.setText(String.valueOf(data.getPrivatePercentage()));
+        DistancePrivate.setText(String.valueOf(data.getPrivateDistance()));
+        TimePrivate.setText(String.valueOf(data.getPrivateSecs()));
+        PercentagePublic.setText(String.valueOf(data.getPublicPercentage()));
+        DistancePublic.setText(String.valueOf(data.getPublicDistance()));
+        TimePublic.setText(String.valueOf(data.getPublicSecs()));
+        ValEmission.setText(String.valueOf(data.getEmittedCO2()));
+        ValAvoided.setText(String.valueOf(data.getAvoidedCO2()));
     }
 }
