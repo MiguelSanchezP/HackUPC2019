@@ -1,20 +1,35 @@
 package com.miguelsanchezp.hackupcproject;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
+    private double LONG;
+    private double LAT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +101,70 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startStuff () {
+
         Intent intent = new Intent (this, PendingActivity.class);
         startActivity(intent);
     }
+
+    public static Context getContext () {
+        return new MainActivity();
+    }
+
+/*    private void getLocation ()  {
+//        LocationManager locationManager;
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//        locationManager.getBestProvider(criteria, true);
+//            String provider = locationManager.getProviders(true).get(0);
+                Log.d(TAG, "getLocation: this is not null :)!!!");
+//                try {
+
+//                    Location location = locationManager.getLastKnownLocation(provider);
+                    LocationListener locationListener = new LocationListener() {
+                        @Override
+                        public void onLocationChanged(Location location) {
+                            setLatitude(location.getLatitude());
+                            setLongitude(location.getLongitude());
+                            Log.d(TAG, "onLocationChanged: " + location.getLongitude());
+                            Log.d(TAG, "onLocationChanged: " + location.getLatitude());
+                            
+                        }
+
+                        @Override
+                        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                        }
+
+                        @Override
+                        public void onProviderEnabled(String s) {
+
+                        }
+
+                        @Override
+                        public void onProviderDisabled(String s) {
+
+                        }
+                    };
+                    try {
+                        locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        Log.d(TAG, "getLocation: inside!!!");
+                    } catch (SecurityException e) {
+                        Log.e(TAG, "getLocation: " + e.getMessage());
+                    }
+                    Toast.makeText(this, LONG + " , " + LAT, Toast.LENGTH_SHORT).show();
+//                } catch (SecurityException e) {
+//                    Log.e(TAG, "getLocation: there is a security exception");
+//                }
+            }
+//        }
+//    }
+
+    private void setLongitude (double LONG) {
+        this.LONG = LONG;
+    }
+
+    private void setLatitude (double LAT) {
+        this.LAT = LAT;
+    }*/
 }
