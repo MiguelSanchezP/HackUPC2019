@@ -13,7 +13,7 @@ public class Data {
     private double PrivateDistance;
     private double PublicDistance;
 
-    public Data () {
+    Data () {
 
     }
 
