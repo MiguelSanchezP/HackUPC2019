@@ -27,11 +27,15 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private double LAT;
+    private double LONG;
     private double FORMERLAT;
+    private double FORMERLONG;
     private boolean first = true;
     private double Movement = 0;
     LocationManager locationManager;
     LocationListener locationListener;
+    private double distancePrev = 0;
+    private double distance = 0;
 
 //    private FloatingActionButton PendingButton = findViewById(R.id.PendingButton);
 //    private FloatingActionButton PlottingButton = findViewById(R.id.PlottingButton);
@@ -94,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
         PlottingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Plotting dialog should display here", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "Plotting dialog should display here", Toast.LENGTH_SHORT).show();
+                getLocation();
             }
         });
 
@@ -167,11 +172,14 @@ public class MainActivity extends AppCompatActivity {
                             if (first) {
                                 first = false;
                                 FORMERLAT = location.getLatitude();
+                                FORMERLONG = location.getLongitude();
                                 WriteData.exportMovement(0);
                             }else {
                                 FORMERLAT = LAT;
+                                FORMERLONG = LONG;
+                                LONG = location.getLongitude();
                                 LAT = location.getLatitude();
-                                Movement += calculateMovement(LAT, FORMERLAT);
+                                Movement += calculateMovement(LAT, FORMERLAT, LONG, FORMERLONG);
                                 WriteData.exportMovement(Movement);
                             }
                         }
@@ -195,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
 //                        locationManager.requestLocationUpdates(provider, 5000, 30, locationListener);
 //                        Log.d(TAG, "getLocation: inside!!!");
 //                        locationManager.requestLocationUpdates(provider, 0, 0, locationListener);
-                        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+                        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 50, 1, locationListener);
 //                        locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     } catch (SecurityException e) {
 //                        Log.e(TAG, "getLocation: " + e.getMessage());
@@ -217,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
         data.setPrivateSecs(1054);
         data.setPublicSecs(2514);
         data.setOthers();
+
         WriteData.WriteIntoFile(data);
     }
 
@@ -273,9 +282,20 @@ public class MainActivity extends AppCompatActivity {
         return sb.toString();
     }
 
-    private double calculateMovement (double latitude, double formerlatitude) {
-        double kmX = 111.32*(latitude-formerlatitude);
-        double kmY = (double)40075*Math.cos(latitude-formerlatitude)/360;
-        return Math.sqrt(Math.pow(kmX, 2) + Math.pow(kmY, 2));
+    private double calculateMovement (double latitude, double formerlatitude, double longitude, double formerlongitude) {
+        distancePrev = distance;
+        double radLat = latitude*Math.PI/180;
+        double radFormerLat = formerlatitude*Math.PI/180;
+        double radLong = longitude*Math.PI/180;
+        double radFormerLong = formerlongitude*Math.PI/180;
+        distance = 2*6370*Math.asin(Math.sqrt(Math.pow(Math.sin((radLat-radFormerLat)/2), 2) + Math.cos(radFormerLat)*Math.cos(radLat)*Math.pow(Math.sin((radLong-radFormerLong)/2),2)));
+
+
+//        double kmX = 111.32*(latitude-formerlatitude);
+//        Toast.makeText(this, String.valueOf(latitude-formerlatitude), Toast.LENGTH_SHORT).show();
+//        double kmY = (double)40075*Math.cos(latitude-formerlatitude)/360;
+//        return Math.sqrt(Math.pow(kmX, 2) + Math.pow(kmY, 2));
+        Toast.makeText(this, String.valueOf(distance*1000), Toast.LENGTH_SHORT).show();
+        return distance*1000000;
     }
 }
