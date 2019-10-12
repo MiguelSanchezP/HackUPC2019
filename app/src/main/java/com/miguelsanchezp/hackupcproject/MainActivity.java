@@ -31,6 +31,23 @@ public class MainActivity extends AppCompatActivity {
     private double LONG;
     private double LAT;
 
+    FloatingActionButton PendingButton = findViewById(R.id.PendingButton);
+    FloatingActionButton PlottingButton = findViewById(R.id.PlottingButton);
+    TextView DailyScore = findViewById(R.id.DailyScore);
+    TextView WeeklyScore = findViewById (R.id.WeeklyScore);
+    TextView MonthlyScore = findViewById(R.id.MonthlyScore);
+    TextView PercentageEco = findViewById (R.id.PercentageEco);
+    TextView DistanceEco = findViewById (R.id.DistanceEco);
+    TextView TimeEco = findViewById (R.id.TimeEco);
+    TextView PercentagePrivate = findViewById(R.id.PercentagePrivate);
+    TextView DistancePrivate = findViewById(R.id.DistancePrivate);
+    TextView TimePrivate = findViewById (R.id.TimePrivate);
+    TextView PercentagePublic = findViewById(R.id.PercentagePublic);
+    TextView DistancePublic = findViewById (R.id.DistancePublic);
+    TextView TimePublic = findViewById (R.id.TimePublic);
+    TextView ValEmission = findViewById(R.id.ValEmission);
+    TextView ValAvoided = findViewById(R.id.ValAvoided);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,23 +61,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-        FloatingActionButton PendingButton = findViewById(R.id.PendingButton);
-        FloatingActionButton PlottingButton = findViewById(R.id.PlottingButton);
-        TextView DailyScore = findViewById(R.id.DailyScore);
-        TextView WeeklyScore = findViewById (R.id.WeeklyScore);
-        TextView MonthlyScore = findViewById(R.id.MonthlyScore);
-        TextView PercentageEco = findViewById (R.id.PercentageEco);
-        TextView DistanceEco = findViewById (R.id.DistanceEco);
-        TextView TimeEco = findViewById (R.id.TimeEco);
-        TextView PercentagePrivate = findViewById(R.id.PercentagePrivate);
-        TextView DistancePrivate = findViewById(R.id.DistancePrivate);
-        TextView TimePrivate = findViewById (R.id.TimePrivate);
-        TextView PercentagePublic = findViewById(R.id.PercentagePublic);
-        TextView DistancePublic = findViewById (R.id.DistancePublic);
-        TextView TimePublic = findViewById (R.id.TimePublic);
-        TextView ValEmission = findViewById(R.id.ValEmission);
-        TextView ValAvoided = findViewById(R.id.ValAvoided);
 
         PendingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,4 +167,21 @@ public class MainActivity extends AppCompatActivity {
     private void setLatitude (double LAT) {
         this.LAT = LAT;
     }*/
+
+    private void saveData () {
+        Data data = new Data();
+        data.setEcoFriendlyDistance(10.0);
+        data.setPrivateDistance(10.0);
+        data.setPublicDistance(10.0);
+        data.setEcoFriendlySecs(4802);
+        data.setPrivateSecs(1054);
+        data.setPublicSecs(2514);
+        data.setOthers();
+        WriteData.WriteIntoFile(data);
+    }
+
+    private void fillLayout () {
+        ReadData.ReadFromFile("last");
+        PercentageEco.setText()
+    }
 }
