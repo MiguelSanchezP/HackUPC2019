@@ -22,16 +22,22 @@ public class Data {
 
     }
 
-    public Data (int EcoFriendlySecs, int PrivateSecs, int PublicSecs, double EcoFriendlyDistance, double PrivateDistance, double PublicDistance, int DailyScore, int WeeklyScore, int MonthlyScore) {
+    public Data (int EcoFriendlySecs, int PrivateSecs, int PublicSecs, double EcoFriendlyDistance, double PrivateDistance, double PublicDistance) {
         this.EcoFriendlySecs = EcoFriendlySecs;
         this.PrivateSecs = PrivateSecs;
         this.PublicSecs = PublicSecs;
         this.EcoFriendlyDistance = EcoFriendlyDistance;
         this.PrivateDistance = PrivateDistance;
         this.PublicDistance = PublicDistance;
-        this.EcoFriendlyPercentage = EcoFriendlySecs/(EcoFriendlySecs+PrivateSecs+PublicSecs)*100;
-        this.PrivatePercentage = PrivateSecs/(EcoFriendlySecs+PrivateSecs+PublicSecs)*100;
-        this.PublicPercentage = PublicSecs/(EcoFriendlySecs+PrivateSecs+PublicSecs)*100;
+        if ((EcoFriendlySecs+PrivateSecs+PublicSecs) == 0) {
+            this.EcoFriendlyPercentage = 0;
+            this.PrivatePercentage = 0;
+            this.PublicPercentage = 0;
+        }else {
+            this.EcoFriendlyPercentage = EcoFriendlySecs / (EcoFriendlySecs + PrivateSecs + PublicSecs) * 100;
+            this.PrivatePercentage = PrivateSecs / (EcoFriendlySecs + PrivateSecs + PublicSecs) * 100;
+            this.PublicPercentage = PublicSecs / (EcoFriendlySecs + PrivateSecs + PublicSecs) * 100;
+        }
         this.emittedCO2 = (.08*PrivateDistance/1000)+(.2*PublicDistance/1000);
         this.avoidedCO2 = (.08*EcoFriendlyDistance/1000)+(.6*PublicDistance/1000);
         this.DailyScore = (int)(EcoFriendlyPercentage+PublicPercentage/2);
