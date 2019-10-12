@@ -21,7 +21,7 @@ public class WriteData {
             outputStreamWriter.write(String.valueOf(data.getPrivateDistance()));
             outputStreamWriter.write("&");
             outputStreamWriter.write(String.valueOf(data.getPublicDistance()));
-
+            outputStreamWriter.close();
         }catch (FileNotFoundException e) {
             Toast.makeText(MainActivity.getContext(), "File wasn't found", Toast.LENGTH_LONG).show();
         }catch (IOException e) {
