@@ -2,6 +2,8 @@ package com.miguelsanchezp.hackupcproject;
 
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,14 +12,16 @@ public class ReadData {
     public static Data ReadFromFile () {
         Data data = new Data();
         try {
-            InputStreamReader inputStreamReader = new InputStreamReader(MainActivity.getContext().openFileInput("stuff.txt"));
-            int character = inputStreamReader.read();
+//            InputStreamReader inputStreamReader = new InputStreamReader(MainActivity.getContext().openFileInput("data.txt"));
+            File file = new File("/data/data/com.miguelsanchezp.hackupcproject/files/", "data.txt");
+            FileInputStream fileInputStream = new FileInputStream(file);
+            int character = fileInputStream.read();
             StringBuilder sb = new StringBuilder();
             while (character!= -1) {
                 sb.append((char) character);
-                character=inputStreamReader.read();
+                character=fileInputStream.read();
             }
-            inputStreamReader.close();
+            fileInputStream.close();
             String text = sb.toString();
             String[] terms = text.split("&");
             data.setEcoFriendlySecs(Integer.parseInt(terms[0]));
