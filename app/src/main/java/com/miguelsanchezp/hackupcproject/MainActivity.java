@@ -222,19 +222,47 @@ public class MainActivity extends AppCompatActivity {
         //null pointer, make the check going to breakfast first :)
         Data data = ReadData.ReadFromFile();
         if (data != null) {
-            PercentageEco.setText(String.valueOf(data.getEcoFriendlyPercentage()));
-            DistanceEco.setText(String.valueOf(data.getEcoFriendlyDistance()));
-            TimeEco.setText(String.valueOf(data.getEcoFriendlySecs()));
-            PercentagePrivate.setText(String.valueOf(data.getPrivatePercentage()));
-            DistancePrivate.setText(String.valueOf(data.getPrivateDistance()));
-            TimePrivate.setText(String.valueOf(data.getPrivateSecs()));
-            PercentagePublic.setText(String.valueOf(data.getPublicPercentage()));
-            DistancePublic.setText(String.valueOf(data.getPublicDistance()));
-            TimePublic.setText(String.valueOf(data.getPublicSecs()));
-            ValEmission.setText(String.valueOf(data.getEmittedCO2()));
-            ValAvoided.setText(String.valueOf(data.getAvoidedCO2()));
+            PercentageEco.setText(data.getEcoFriendlyPercentage() + "%");
+            DistanceEco.setText(data.getEcoFriendlyDistance()+"km");
+            TimeEco.setText(formatSeconds(data.getEcoFriendlySecs()));
+            PercentagePrivate.setText(data.getPrivatePercentage() + "%");
+            DistancePrivate.setText(data.getPrivateDistance() + "km");
+            TimePrivate.setText(formatSeconds(data.getPrivateSecs()));
+            PercentagePublic.setText(data.getPublicPercentage()+"%");
+            DistancePublic.setText(data.getPublicDistance() + "km");
+            TimePublic.setText(formatSeconds(data.getPublicSecs()));
+            ValEmission.setText(data.getEmittedCO2()+"kg");
+            ValAvoided.setText(data.getAvoidedCO2()+"kg");
         }else{
             Toast.makeText(this, "The data import was a null one", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private String formatSeconds (int seconds) {
+        StringBuilder sb = new StringBuilder();
+        int hours = seconds/3600;
+        if (hours<10) {
+            sb.append("0");
+            sb.append(hours);
+        }else{
+            sb.append(hours);
+        }
+        sb.append(":");
+        int minutes = (seconds%3600)/60;
+        if (minutes < 10) {
+            sb.append("0");
+            sb.append(minutes);
+        }else{
+            sb.append(minutes);
+        }
+        sb.append(":");
+        int secs = (seconds%3600)%60;
+        if (secs < 10) {
+            sb.append("0");
+            sb.append (secs);
+        }else{
+            sb.append(secs);
+        }
+        return sb.toString();
     }
 }
