@@ -23,13 +23,15 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private double LONG;
     private double LAT;
+    private double FORMERLAT;
+    private boolean first = true;
+    private double Movement = 0;
+    LocationManager locationManager;
+    LocationListener locationListener;
 
 //    private FloatingActionButton PendingButton = findViewById(R.id.PendingButton);
 //    private FloatingActionButton PlottingButton = findViewById(R.id.PlottingButton);
@@ -66,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
          FloatingActionButton PlottingButton = findViewById(R.id.PlottingButton);
          FloatingActionButton SavingButton = findViewById(R.id.SavingButton);
          FloatingActionButton LoadingButton = findViewById(R.id.LoadingButton);
-         TextView DailyScore = findViewById(R.id.DailyScore);
-         TextView WeeklyScore = findViewById (R.id.WeeklyScore);
-         TextView MonthlyScore = findViewById(R.id.MonthlyScore);
+         final TextView DailyScore = findViewById(R.id.DailyScore);
+         final TextView WeeklyScore = findViewById (R.id.WeeklyScore);
+         final TextView MonthlyScore = findViewById(R.id.MonthlyScore);
          final TextView PercentageEco = findViewById (R.id.PercentageEco);
          final TextView DistanceEco = findViewById (R.id.DistanceEco);
          final TextView TimeEco = findViewById (R.id.TimeEco);
@@ -109,7 +111,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "Importing data", Toast.LENGTH_LONG).show();
                 fillLayout(PercentageEco, DistanceEco, TimeEco, PercentagePrivate, DistancePrivate, TimePrivate,
-                        PercentagePublic, DistancePublic, TimePublic, ValEmission, ValAvoided);
+                        PercentagePublic, DistancePublic, TimePublic, ValEmission, ValAvoided, DailyScore, WeeklyScore,
+                        MonthlyScore);
             }
         });
     }
@@ -146,30 +149,36 @@ public class MainActivity extends AppCompatActivity {
         return new MainActivity();
     }
 
-/*    private void getLocation ()  {
+    private void getLocation ()  {
 //        LocationManager locationManager;
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
-//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        locationManager.getBestProvider(criteria, true);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        String provider = locationManager.getBestProvider(criteria, true);
+//        Log.d(TAG, "getLocation: !!!!" + provider);
 //            String provider = locationManager.getProviders(true).get(0);
-                Log.d(TAG, "getLocation: this is not null :)!!!");
+//                Log.d(TAG, "getLocation: this is not null :)!!!");
 //                try {
 
 //                    Location location = locationManager.getLastKnownLocation(provider);
-                    LocationListener locationListener = new LocationListener() {
+                    locationListener = new LocationListener() {
                         @Override
                         public void onLocationChanged(Location location) {
-                            setLatitude(location.getLatitude());
-                            setLongitude(location.getLongitude());
-                            Log.d(TAG, "onLocationChanged: " + location.getLongitude());
-                            Log.d(TAG, "onLocationChanged: " + location.getLatitude());
-                            
+                            if (first) {
+                                first = false;
+                                FORMERLAT = location.getLatitude();
+                                WriteData.exportMovement(0);
+                            }else {
+                                FORMERLAT = LAT;
+                                LAT = location.getLatitude();
+                                Movement += calculateMovement(LAT, FORMERLAT);
+                                WriteData.exportMovement(Movement);
+                            }
                         }
 
                         @Override
                         public void onStatusChanged(String s, int i, Bundle bundle) {
-
+                            Log.d(TAG, "onStatusChanged: inside onStatusChanged");
                         }
 
                         @Override
@@ -183,26 +192,21 @@ public class MainActivity extends AppCompatActivity {
                         }
                     };
                     try {
-                        locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        Log.d(TAG, "getLocation: inside!!!");
+//                        locationManager.requestLocationUpdates(provider, 5000, 30, locationListener);
+//                        Log.d(TAG, "getLocation: inside!!!");
+//                        locationManager.requestLocationUpdates(provider, 0, 0, locationListener);
+                        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+//                        locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     } catch (SecurityException e) {
-                        Log.e(TAG, "getLocation: " + e.getMessage());
+//                        Log.e(TAG, "getLocation: " + e.getMessage());
                     }
-                    Toast.makeText(this, LONG + " , " + LAT, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, LONG + " , " + LAT, Toast.LENGTH_SHORT).show();
 //                } catch (SecurityException e) {
 //                    Log.e(TAG, "getLocation: there is a security exception");
 //                }
             }
 //        }
 //    }
-
-    private void setLongitude (double LONG) {
-        this.LONG = LONG;
-    }
-
-    private void setLatitude (double LAT) {
-        this.LAT = LAT;
-    }*/
 
     private void saveData () {
         Data data = new Data();
@@ -218,8 +222,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void fillLayout (TextView PercentageEco, TextView DistanceEco, TextView TimeEco, TextView PercentagePrivate,
                              TextView DistancePrivate, TextView TimePrivate, TextView PercentagePublic, TextView DistancePublic,
-                             TextView TimePublic, TextView ValEmission, TextView ValAvoided) {
-        //null pointer, make the check going to breakfast first :)
+                             TextView TimePublic, TextView ValEmission, TextView ValAvoided, TextView DailyScore,
+                             TextView WeeklyScore, TextView MonthlyScore) {
         Data data = ReadData.ReadFromFile();
         if (data != null) {
             PercentageEco.setText(data.getEcoFriendlyPercentage() + "%");
@@ -233,6 +237,9 @@ public class MainActivity extends AppCompatActivity {
             TimePublic.setText(formatSeconds(data.getPublicSecs()));
             ValEmission.setText(data.getEmittedCO2()+"kg");
             ValAvoided.setText(data.getAvoidedCO2()+"kg");
+            DailyScore.setText(String.valueOf(data.getDailyScore()));
+            WeeklyScore.setText(String.valueOf(data.getWeeklyScore()));
+            MonthlyScore.setText(String.valueOf(data.getMonthlyScore()));
         }else{
             Toast.makeText(this, "The data import was a null one", Toast.LENGTH_LONG).show();
         }
@@ -264,5 +271,11 @@ public class MainActivity extends AppCompatActivity {
             sb.append(secs);
         }
         return sb.toString();
+    }
+
+    private double calculateMovement (double latitude, double formerlatitude) {
+        double kmX = 111.32*(latitude-formerlatitude);
+        double kmY = (double)40075*Math.cos(latitude-formerlatitude)/360;
+        return Math.sqrt(Math.pow(kmX, 2) + Math.pow(kmY, 2));
     }
 }
