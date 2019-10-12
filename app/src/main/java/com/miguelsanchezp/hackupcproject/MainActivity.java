@@ -31,22 +31,22 @@ public class MainActivity extends AppCompatActivity {
     private double LONG;
     private double LAT;
 
-    private FloatingActionButton PendingButton = findViewById(R.id.PendingButton);
-    private FloatingActionButton PlottingButton = findViewById(R.id.PlottingButton);
-    private TextView DailyScore = findViewById(R.id.DailyScore);
-    private TextView WeeklyScore = findViewById (R.id.WeeklyScore);
-    private TextView MonthlyScore = findViewById(R.id.MonthlyScore);
-    private TextView PercentageEco = findViewById (R.id.PercentageEco);
-    private TextView DistanceEco = findViewById (R.id.DistanceEco);
-    private TextView TimeEco = findViewById (R.id.TimeEco);
-    private TextView PercentagePrivate = findViewById(R.id.PercentagePrivate);
-    private TextView DistancePrivate = findViewById(R.id.DistancePrivate);
-    private TextView TimePrivate = findViewById (R.id.TimePrivate);
-    private TextView PercentagePublic = findViewById(R.id.PercentagePublic);
-    private TextView DistancePublic = findViewById (R.id.DistancePublic);
-    private TextView TimePublic = findViewById (R.id.TimePublic);
-    private TextView ValEmission = findViewById(R.id.ValEmission);
-    private TextView ValAvoided = findViewById(R.id.ValAvoided);
+//    private FloatingActionButton PendingButton = findViewById(R.id.PendingButton);
+//    private FloatingActionButton PlottingButton = findViewById(R.id.PlottingButton);
+//    private TextView DailyScore = findViewById(R.id.DailyScore);
+//    private TextView WeeklyScore = findViewById (R.id.WeeklyScore);
+//    private TextView MonthlyScore = findViewById(R.id.MonthlyScore);
+//    private TextView PercentageEco = findViewById (R.id.PercentageEco);
+//    private TextView DistanceEco = findViewById (R.id.DistanceEco);
+//    private TextView TimeEco = findViewById (R.id.TimeEco);
+//    private TextView PercentagePrivate = findViewById(R.id.PercentagePrivate);
+//    private TextView DistancePrivate = findViewById(R.id.DistancePrivate);
+//    private TextView TimePrivate = findViewById (R.id.TimePrivate);
+//    private TextView PercentagePublic = findViewById(R.id.PercentagePublic);
+//    private TextView DistancePublic = findViewById (R.id.DistancePublic);
+//    private TextView TimePublic = findViewById (R.id.TimePublic);
+//    private TextView ValEmission = findViewById(R.id.ValEmission);
+//    private TextView ValAvoided = findViewById(R.id.ValAvoided);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+         FloatingActionButton PendingButton = findViewById(R.id.PendingButton);
+         FloatingActionButton PlottingButton = findViewById(R.id.PlottingButton);
+         FloatingActionButton SavingButton = findViewById(R.id.SavingButton);
+         FloatingActionButton LoadingButton = findViewById(R.id.LoadingButton);
+         TextView DailyScore = findViewById(R.id.DailyScore);
+         TextView WeeklyScore = findViewById (R.id.WeeklyScore);
+         TextView MonthlyScore = findViewById(R.id.MonthlyScore);
+         final TextView PercentageEco = findViewById (R.id.PercentageEco);
+         final TextView DistanceEco = findViewById (R.id.DistanceEco);
+         final TextView TimeEco = findViewById (R.id.TimeEco);
+         final TextView PercentagePrivate = findViewById(R.id.PercentagePrivate);
+         final TextView DistancePrivate = findViewById(R.id.DistancePrivate);
+         final TextView TimePrivate = findViewById (R.id.TimePrivate);
+         final TextView PercentagePublic = findViewById(R.id.PercentagePublic);
+         final TextView DistancePublic = findViewById (R.id.DistancePublic);
+         final TextView TimePublic = findViewById (R.id.TimePublic);
+         final TextView ValEmission = findViewById(R.id.ValEmission);
+         final TextView ValAvoided = findViewById(R.id.ValAvoided);
+
         PendingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,6 +93,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "Plotting dialog should display here", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        SavingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "Files are being saved", Toast.LENGTH_LONG).show();
+                saveData();
+            }
+        });
+
+        LoadingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "Importing data", Toast.LENGTH_LONG).show();
+                fillLayout(PercentageEco, DistanceEco, TimeEco, PercentagePrivate, DistancePrivate, TimePrivate,
+                        PercentagePublic, DistancePublic, TimePublic, ValEmission, ValAvoided);
             }
         });
     }
@@ -180,18 +216,25 @@ public class MainActivity extends AppCompatActivity {
         WriteData.WriteIntoFile(data);
     }
 
-    private void fillLayout () {
+    private void fillLayout (TextView PercentageEco, TextView DistanceEco, TextView TimeEco, TextView PercentagePrivate,
+                             TextView DistancePrivate, TextView TimePrivate, TextView PercentagePublic, TextView DistancePublic,
+                             TextView TimePublic, TextView ValEmission, TextView ValAvoided) {
+        //null pointer, make the check going to breakfast first :)
         Data data = ReadData.ReadFromFile();
-        PercentageEco.setText(String.valueOf(data.getEcoFriendlyPercentage()));
-        DistanceEco.setText(String.valueOf(data.getEcoFriendlyDistance()));
-        TimeEco.setText(String.valueOf(data.getEcoFriendlySecs()));
-        PercentagePrivate.setText(String.valueOf(data.getPrivatePercentage()));
-        DistancePrivate.setText(String.valueOf(data.getPrivateDistance()));
-        TimePrivate.setText(String.valueOf(data.getPrivateSecs()));
-        PercentagePublic.setText(String.valueOf(data.getPublicPercentage()));
-        DistancePublic.setText(String.valueOf(data.getPublicDistance()));
-        TimePublic.setText(String.valueOf(data.getPublicSecs()));
-        ValEmission.setText(String.valueOf(data.getEmittedCO2()));
-        ValAvoided.setText(String.valueOf(data.getAvoidedCO2()));
+        if (data != null) {
+            PercentageEco.setText(String.valueOf(data.getEcoFriendlyPercentage()));
+            DistanceEco.setText(String.valueOf(data.getEcoFriendlyDistance()));
+            TimeEco.setText(String.valueOf(data.getEcoFriendlySecs()));
+            PercentagePrivate.setText(String.valueOf(data.getPrivatePercentage()));
+            DistancePrivate.setText(String.valueOf(data.getPrivateDistance()));
+            TimePrivate.setText(String.valueOf(data.getPrivateSecs()));
+            PercentagePublic.setText(String.valueOf(data.getPublicPercentage()));
+            DistancePublic.setText(String.valueOf(data.getPublicDistance()));
+            TimePublic.setText(String.valueOf(data.getPublicSecs()));
+            ValEmission.setText(String.valueOf(data.getEmittedCO2()));
+            ValAvoided.setText(String.valueOf(data.getAvoidedCO2()));
+        }else{
+            Toast.makeText(this, "The data import was a null one", Toast.LENGTH_LONG).show();
+        }
     }
 }
