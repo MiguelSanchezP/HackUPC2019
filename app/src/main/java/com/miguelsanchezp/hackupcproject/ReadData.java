@@ -43,11 +43,43 @@ public class ReadData {
         return data;
     }
 
-    public static String getVal (String path) {
-        File file = new File (path);
+    static int sum (int factors) {
+        File file = new File ("/data/data/com.miguelsanchezp.hackupc/files/", "scores.txt");
         if (file.exists()) {
             try {
                 FileInputStream fileInputStream = new FileInputStream(file);
+                int character = fileInputStream.read();
+                StringBuilder sb = new StringBuilder();
+                while (character != -1) {
+                    sb.append((char) character);
+                    character = fileInputStream.read();
+                }
+                fileInputStream.close();
+                String line = sb.toString();
+                String [] array = line.split("-");
+                Integer sum = 0;
+                for (int i = 0; i<factors; i++) {
+                    if (i < array.length) {
+                        sum += Integer.getInteger(array[i]);
+                    }else{
+                        return -1;
+                    }
+                }
+                return sum;
+            }catch (IOException e) {
+                e.printStackTrace();
+
+            }
+        }
+        return 0;
+    }
+
+    public static String getVal (String path, String name) {
+        File file = new File (path);
+        if (file.exists()) {
+            try {
+                File file1 = new File (path, name);
+                FileInputStream fileInputStream = new FileInputStream(file1);
                 StringBuilder sb = new StringBuilder();
                 int character = fileInputStream.read();
                 while (character != -1) {
