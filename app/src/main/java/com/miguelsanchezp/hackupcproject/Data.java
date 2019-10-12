@@ -1,5 +1,7 @@
 package com.miguelsanchezp.hackupcproject;
 
+import static com.miguelsanchezp.hackupcproject.ReadData.sum;
+
 public class Data {
     private int EcoFriendlySecs;
     private int PrivateSecs;
@@ -12,12 +14,15 @@ public class Data {
     private double EcoFriendlyDistance;
     private double PrivateDistance;
     private double PublicDistance;
+    private int DailyScore;
+    private int WeeklyScore;
+    private int MonthlyScore;
 
     Data () {
 
     }
 
-    public Data (int EcoFriendlySecs, int PrivateSecs, int PublicSecs, double EcoFriendlyDistance, double PrivateDistance, double PublicDistance) {
+    public Data (int EcoFriendlySecs, int PrivateSecs, int PublicSecs, double EcoFriendlyDistance, double PrivateDistance, double PublicDistance, int DailyScore, int WeeklyScore, int MonthlyScore) {
         this.EcoFriendlySecs = EcoFriendlySecs;
         this.PrivateSecs = PrivateSecs;
         this.PublicSecs = PublicSecs;
@@ -29,65 +34,80 @@ public class Data {
         this.PublicPercentage = PublicSecs/(EcoFriendlySecs+PrivateSecs+PublicSecs)*100;
         this.emittedCO2 = (.08*PrivateDistance/1000)+(.2*PublicDistance/1000);
         this.avoidedCO2 = (.08*EcoFriendlyDistance/1000)+(.6*PublicDistance/1000);
+        this.DailyScore = (int)(EcoFriendlyPercentage+PublicPercentage/2);
+        this.WeeklyScore = sum(7)/7;
+        this.MonthlyScore = sum(30)/30;
     }
 
-    public int getEcoFriendlySecs () {
+    int getEcoFriendlySecs () {
         return EcoFriendlySecs;
     }
-    public int getPrivateSecs () {
+    int getPrivateSecs () {
         return PrivateSecs;
     }
-    public int getPublicSecs () {
+    int getPublicSecs () {
         return PublicSecs;
     }
-    public double getEcoFriendlyPercentage () {
+    double getEcoFriendlyPercentage () {
         return EcoFriendlyPercentage;
     }
-    public double getPrivatePercentage () {
+    double getPrivatePercentage () {
         return PrivatePercentage;
     }
-    public double getPublicPercentage () {
+    double getPublicPercentage () {
         return PublicPercentage;
     }
-    public double getEmittedCO2 () {
+    double getEmittedCO2 () {
         return emittedCO2;
     }
-    public double getAvoidedCO2 () {
+    double getAvoidedCO2 () {
         return avoidedCO2;
     }
-    public double getEcoFriendlyDistance () {
+    double getEcoFriendlyDistance () {
         return EcoFriendlyDistance;
     }
-    public double getPrivateDistance () {
+    double getPrivateDistance () {
         return PrivateDistance;
     }
-    public double getPublicDistance () {
+    double getPublicDistance () {
         return PublicDistance;
     }
-    public void setEcoFriendlySecs (int secs) {
+    int getDailyScore () {
+        return DailyScore;
+    }
+    int getWeeklyScore () {
+        return WeeklyScore;
+    }
+    int getMonthlyScore() {
+        return MonthlyScore;
+    }
+    void setEcoFriendlySecs (int secs) {
         EcoFriendlySecs = secs;
     }
-    public void setPrivateSecs (int secs) {
+    void setPrivateSecs (int secs) {
         PrivateSecs = secs;
     }
-    public void setPublicSecs (int secs) {
+    void setPublicSecs (int secs) {
         PublicSecs = secs;
     }
-    public void setEcoFriendlyDistance (double distance) {
+    void setEcoFriendlyDistance (double distance) {
         EcoFriendlyDistance = distance;
     }
-    public void setPrivateDistance (double distance) {
+    void setPrivateDistance (double distance) {
         PrivateDistance = distance;
     }
-    public void setPublicDistance (double distance) {
+    void setPublicDistance (double distance) {
         PublicDistance = distance;
     }
-    public void setOthers () {
+    void setOthers () {
         EcoFriendlyPercentage = (double)EcoFriendlySecs/(EcoFriendlySecs+PrivateSecs+PublicSecs)*100;
         PrivatePercentage = (double)PrivateSecs/(EcoFriendlySecs+PrivateSecs+PublicSecs)*100;
         PublicPercentage = (double)PublicSecs/(EcoFriendlySecs+PrivateSecs+PublicSecs)*100;
         emittedCO2 = (.08*PrivateDistance/1000)+(.2*PublicDistance/1000);
         avoidedCO2 = (.08*EcoFriendlyDistance/1000)+(.6*PublicDistance/1000);
+        DailyScore = (int)(EcoFriendlyPercentage+PublicPercentage/2);
+        WeeklyScore = sum(7)/7;
+        MonthlyScore = sum(30)/30;
     }
 
 }
