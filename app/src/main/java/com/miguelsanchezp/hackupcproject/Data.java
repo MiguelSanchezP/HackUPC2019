@@ -83,9 +83,9 @@ public class Data {
         PublicDistance = distance;
     }
     public void setOthers () {
-        EcoFriendlyPercentage = EcoFriendlySecs/(EcoFriendlySecs+PrivateSecs+PublicSecs)*100;
-        PrivatePercentage = PrivateSecs/(EcoFriendlySecs+PrivateSecs+PublicSecs)*100;
-        PublicPercentage = PublicSecs/(EcoFriendlySecs+PrivateSecs+PublicSecs)*100;
+        EcoFriendlyPercentage = (double)EcoFriendlySecs/(EcoFriendlySecs+PrivateSecs+PublicSecs)*100;
+        PrivatePercentage = (double)PrivateSecs/(EcoFriendlySecs+PrivateSecs+PublicSecs)*100;
+        PublicPercentage = (double)PublicSecs/(EcoFriendlySecs+PrivateSecs+PublicSecs)*100;
         emittedCO2 = (.08*PrivateDistance/1000)+(.2*PublicDistance/1000);
         avoidedCO2 = (.08*EcoFriendlyDistance/1000)+(.6*PublicDistance/1000);
     }
